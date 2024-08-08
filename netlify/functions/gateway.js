@@ -1,15 +1,15 @@
 const crypto = require('crypto');
 const fetch = require('node-fetch');
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type,x-api-key,x-api-signature',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+};
+
 const handler = async (event) => {
   try {
     console.log('Http method:', event.httpMethod, event.body);
-
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type,x-api-key,x-api-signature',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    };
 
     if (event.httpMethod === 'OPTIONS') {
       return {
@@ -23,7 +23,7 @@ const handler = async (event) => {
 
     const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
     const API_PRIVATE_KEY = process.env.API_PRIVATE_KEY;
-    
+
     const privateKeyObject = crypto.createPrivateKey({
       key: API_PRIVATE_KEY,
       type: 'pkcs1',
