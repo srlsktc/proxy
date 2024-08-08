@@ -12,6 +12,7 @@ const handler = async (event) => {
     //     },
     //   };
     // }
+    console.log('Http method:', event.httpMethod, event.body);
 
     const headers = event.headers;
     const body = JSON.parse(event.body); // Parse the body
@@ -19,7 +20,6 @@ const handler = async (event) => {
 
     console.log('Received headers:', headers);
     console.log('Received body:', body);
-    console.log('Http method:', event.httpMethod);
 
     const response = await fetch(apiUrl, {
       method: 'POST',
