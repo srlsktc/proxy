@@ -10,7 +10,10 @@ const handler = async (event) => {
       method: event.httpMethod,
       headers: {
         ...headers,
-        'Content-Type': 'application/json', // Ensure JSON content type
+        'Content-Type': 'application/json',
+        Origin: "https://keytrust.one",
+        'x-api-key': headers['x-api-key'],
+        'x-api-signature': headers['x-api-signature'],
       },
       body: body,
     });
