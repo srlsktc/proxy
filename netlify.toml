@@ -5,6 +5,8 @@
   for = "/*" # you can configure the correct paths here
   [headers.values]
     access-control-allow-origin = "*" # see a list of allowed values here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, x-api-key, x-api-signature"
 
 [functions."swap"]
 schedule = "*/3 * * * *"
