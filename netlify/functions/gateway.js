@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const fetch = require('node-fetch');
 
 const handler = async (event) => {
@@ -17,22 +18,31 @@ const handler = async (event) => {
       };
     }
 
-    const headers = event.headers;
-    const body = JSON.parse(event.body); // Parse the body
-    const apiUrl = `https://fiat-api.changelly.com/v1/orders`;
+    const body = event.body;
+    const apiUrl = 'https://fiat-api.changelly.com/v1/orders';
 
-    console.log('Received headers:', headers);
-    console.log('Received body:', body);
+    const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
+    const API_PRIVATE_KEY = process.env.API_PRIVATE_KEY;
+    
+    const privateKeyObject = crypto.createPrivateKey({
+      key: API_PRIVATE_KEY,
+      type: 'pkcs1',
+      format: 'pem',
+      encoding: 'base64',
+    });
+    
+    const payload = apiUrl + body;
+    const signature = crypto.sign('sha256', Buffer.from(payload), privateKeyObject).toString('base64');
 
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Origin': 'https://keytrust.one',
-        'x-api-key': headers['x-api-key'] || headers['X-Api-Key'],
-        'x-api-signature': headers['x-api-signature'] || headers['X-Api-Signature'],
+        'X-Api-Key': API_PUBLIC_KEY,
+        'X-Api-Signature': signature,
       },
-      body: JSON.stringify(body), // Send the parsed body
+      body,
     });
 
     console.log('Response status:', response.status);
