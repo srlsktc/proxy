@@ -2,17 +2,17 @@ const fetch = require('node-fetch');
 
 const handler = async (event) => {
   try {
-    // if (event.httpMethod === 'OPTIONS') {
-    //   return {
-    //     statusCode: 200,
-    //     headers: {
-    //       'Access-Control-Allow-Origin': '*',
-    //       'Access-Control-Allow-Headers': 'Content-Type,x-api-key,x-api-signature',
-    //       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    //     },
-    //   };
-    // }
     console.log('Http method:', event.httpMethod, event.body);
+    if (event.httpMethod === 'OPTIONS') {
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type,x-api-key,x-api-signature',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        },
+      };
+    }
 
     const headers = event.headers;
     const body = JSON.parse(event.body); // Parse the body
