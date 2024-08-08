@@ -1,0 +1,19 @@
+{
+  "name": "@ktc/uniswap-proxy",
+  "version": "1.0.0",
+  "description": "Uniswap proxy",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo Building Functions"
+  },
+  "author": "KTC",
+  "license": "ISC",
+  "dependencies": {
+    "@netlify/edge-functions": "^2.3.1",
+    "@netlify/functions": "^2.6.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
+    "node-fetch": "^2.6.6",
+    "serverless-http": "^3.2.0"
+  }
+}
