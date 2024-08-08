@@ -2,24 +2,27 @@ const fetch = require('node-fetch');
 
 const handler = async (event) => {
   try {
-    const { headers, body, path } = event;
-    console.log('input data', headers, body, headers['x-api-key'], headers['X-Api-Key'])
+    const headers = event.headers;
+    const body = event.body;
     const apiUrl = `https://fiat-api.changelly.com/v1/orders`;
-    
+
+    console.log('Received headers:', headers);
+    console.log('Received body:', body);
+
     const response = await fetch(apiUrl, {
-      method: event.httpMethod,
+      method: 'POST',
       headers: {
-        // ...headers,
         'Content-Type': 'application/json',
-        Origin: "https://keytrust.one",
-        'x-api-key': headers['x-api-key'],
-        'x-api-signature': headers['x-api-signature'],
+        Origin: 'https://keytrust.one',
+        'x-api-key': headers['x-api-key'] || headers['X-Api-Key'],
+        'x-api-signature': headers['x-api-signature'] || headers['X-Api-Signature'],
       },
       body,
     });
-    
-    console.log('response', response)
+
+    console.log('Response status:', response.status);
     const responseBody = await response.text();
+    console.log('Response body:', responseBody);
 
     return {
       statusCode: response.status,
