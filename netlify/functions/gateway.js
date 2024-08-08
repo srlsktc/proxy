@@ -22,13 +22,17 @@ const handler = async (event) => {
     const apiUrl = 'https://fiat-api.changelly.com/v1/orders';
 
     const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
-    const API_PRIVATE_KEY = Buffer.from(process.env.API_PRIVATE_KEY, 'base64').toString('utf-8');
+    const API_PRIVATE_KEY = process.env.API_PRIVATE_KEY;
 
+    if (!API_PUBLIC_KEY || !API_PRIVATE_KEY) {
+      throw new Error('Missing API keys'); 
+    }
+    
     const privateKeyObject = crypto.createPrivateKey({
       key: API_PRIVATE_KEY,
       type: 'pkcs1',
       format: 'pem',
-      // encoding: 'base64',
+      encoding: 'base64',
     });
     
     const payload = apiUrl + body;
