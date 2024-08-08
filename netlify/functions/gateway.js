@@ -3,8 +3,9 @@ const fetch = require('node-fetch');
 const handler = async (event) => {
   try {
     const { headers, body, path } = event;
+    console.log('input data', headers, body, path)
     const apiUrl = `https://fiat-api.changelly.com${path}`;
-
+    
     const response = await fetch(apiUrl, {
       method: event.httpMethod,
       headers: {
@@ -13,7 +14,8 @@ const handler = async (event) => {
       },
       body: body,
     });
-
+    
+    console.log('response', response)
     const responseBody = await response.text();
 
     return {
