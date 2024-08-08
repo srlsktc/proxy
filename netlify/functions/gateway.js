@@ -14,7 +14,7 @@ const handler = async (event) => {
     }
 
     const headers = event.headers;
-    const body = JSON.parse(event.body);
+    const body = JSON.parse(event.body); // Parse the body
     const apiUrl = `https://fiat-api.changelly.com/v1/orders`;
 
     console.log('Received headers:', headers);
@@ -24,11 +24,11 @@ const handler = async (event) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Origin: 'https://keytrust.one',
+        'Origin': 'https://keytrust.one',
         'x-api-key': headers['x-api-key'] || headers['X-Api-Key'],
         'x-api-signature': headers['x-api-signature'] || headers['X-Api-Signature'],
       },
-      body,
+      body: JSON.stringify(body), // Send the parsed body
     });
 
     console.log('Response status:', response.status);
