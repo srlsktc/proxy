@@ -3,14 +3,17 @@ const fetch = require('node-fetch');
 const handler = async (event) => {
   try {
     console.log('Http method:', event.httpMethod, event.body);
+
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type,x-api-key,x-api-signature',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    };
+
     if (event.httpMethod === 'OPTIONS') {
       return {
         statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Content-Type,x-api-key,x-api-signature',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        },
+        headers: corsHeaders,
       };
     }
 
@@ -40,14 +43,17 @@ const handler = async (event) => {
       statusCode: response.status,
       body: responseBody,
       headers: {
+        ...corsHeaders,
         'Content-Type': 'application/json',
       },
     };
   } catch (error) {
+    console.log('catch error', JSON.stringify({ error: error.toString() }))
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.toString() }),
       headers: {
+        ...corsHeaders,
         'Content-Type': 'application/json',
       },
     };
