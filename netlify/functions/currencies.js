@@ -19,7 +19,7 @@ const handler = async (event) => {
     }
 
     // const apiUrl = 'https://fiat-api.changelly.com/v1/currencies' + (event.queryStringParameters ? `/${event.queryStringParameters}` : '');
-    const apiUrl = 'https://fiat-api.changelly.com/v1/currencies?providerCode=moonpay&type=crypto';
+    const apiUrl = 'https://fiat-api.changelly.com/v1/currencies?providerCode=moonpay&type=crypto&supportedFlow=buy';
 
     const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
     const API_PRIVATE_KEY = process.env.API_PRIVATE_KEY;
