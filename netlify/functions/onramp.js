@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const ApiSigner = require('./ApiSigner');
+const ApiSigner = require('../utils/signer');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

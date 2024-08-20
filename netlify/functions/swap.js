@@ -35,7 +35,7 @@ const handler = async (req) => {
       const wallet = new ethers.Wallet(TEST_WALLET_PRIVATE_KEY, provider);
 
       // Define the Uniswap router address and ABI
-      const uniswapRouterAddress = "0xC5C0A2C28C000788Fcf41ACa8Dc8B5fd4c1838C8"; // Uniswap V2 router address
+      const uniswapRouterAddress = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"; // Uniswap V2 router address
 
       // Create a new contract instance
       const uniswap = new ethers.Contract(
