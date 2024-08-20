@@ -85,10 +85,10 @@ const handler = async (event) => {
     });
 
     console.log('Response status:', response.status);
-    // const responseBody = await response.text();
-    // console.log('Response body:', responseBody);
+    const responseBody = await response.text();
+    console.log('Response body:', responseBody);
     // Process the response
-    const supportedTokens = response.map(token => {
+    const supportedTokens = JSON.parse(responseBody).map(token => {
       const chainId = networkToChainId[token.network] || null;
 
       return {
