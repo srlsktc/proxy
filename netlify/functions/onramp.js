@@ -1,5 +1,5 @@
-const crypto = require('crypto');
 const fetch = require('node-fetch');
+const ApiSigner = require('./ApiSigner');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -27,16 +27,10 @@ const handler = async (event) => {
     if (!API_PUBLIC_KEY || !API_PRIVATE_KEY) {
       throw new Error('Missing API keys'); 
     }
-    
-    const privateKeyObject = crypto.createPrivateKey({
-      key: API_PRIVATE_KEY,
-      type: 'pkcs1',
-      format: 'pem',
-      encoding: 'base64',
-    });
-    
+
+    const apiSigner = new ApiSigner(API_PRIVATE_KEY);
     const payload = apiUrl + body;
-    const signature = crypto.sign('sha256', Buffer.from(payload), privateKeyObject).toString('base64');
+    const signature = apiSigner.sign(payload);
 
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -62,7 +56,7 @@ const handler = async (event) => {
       },
     };
   } catch (error) {
-    console.log('catch error', JSON.stringify({ error: error.toString() }))
+    console.log('catch error', JSON.stringify({ error: error.toString() }));
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.toString() }),
