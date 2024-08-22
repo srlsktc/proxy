@@ -8,44 +8,39 @@ const corsHeaders = {
 };
 
 const networkToChainId = {
-  ethereum: "1",
-  cardano: "58008", // Placeholder, Cardano's chain id may vary based on the provider
-  algorand: "4160", // Algorand uses a different system, no direct chainId
-  apt: "1", // Placeholder, Aptos mainnet
-  cosmos: "cosmoshub-4", // Cosmos Hub
-  avaxc: "43114", // Avalanche C-Chain
-  bitcoin: "bitcoin", // Bitcoin doesn't have a typical chainId, use network name
-  bitcoin_cash: "bitcoin-cash", // Bitcoin Cash network name
-  binance_dex: "bnb", // Binance DEX uses BNB chain
-  binance_smart_chain: "56", // Binance Smart Chain mainnet
-  celo: "42220", // Celo mainnet
-  digibyte: "20", // DigiByte uses a different system
-  doge: "dogecoin", // Dogecoin network name
-  dot: "polkadot", // Polkadot network uses a different system
-  elrond: "elrond-mainnet", // MultiversX (Elrond)
-  eos: "eos", // EOS uses network name
-  ethereum_classic: "61", // Ethereum Classic mainnet
-  filecoin: "314", // Filecoin mainnet
-  flow: "flow-mainnet", // Flow network
-  hedera: "hedera-mainnet", // Hedera Hashgraph
-  klaytn: "8217", // Klaytn mainnet
-  litecoin: "litecoin", // Litecoin network
-  near: "near-mainnet", // NEAR Protocol mainnet
-  nimiq: "nimiq-mainnet", // Nimiq network
-  okt: "66", // OKExChain mainnet
-  optimism: "10", // Optimism mainnet
-  polygon: "137", // Polygon mainnet
-  qtum: "qtum-mainnet", // Qtum network
-  ripple: "ripple", // Ripple (XRP) network
-  solana: "solana-mainnet", // Solana mainnet
-  stacks: "stacks-mainnet", // Stacks network
-  sui: "sui-mainnet", // Sui mainnet
-  tezos: "tezos-mainnet", // Tezos network
-  thorchain: "thorchain-mainnet", // ThorChain network
-  tron: "tron-mainnet", // Tron network
-  vechainthor: "100", // VeChain mainnet
-  wax: "wax-mainnet", // WAX network
-  zilliqa: "zilliqa-mainnet", // Zilliqa network
+  bitcoin: 'bitcoin',
+  cardano: 'cardano',
+  algorand: 'algorand',
+  aptos: 'apt',
+  cosmos: 'cosmos',
+  bitcoinCash: 'bitcoin_cash',
+  binanceCoin: 'binance_smart_chain',
+  digiByte: 'digibyte',
+  doge: 'doge',
+  polkadot: 'polkadot',
+  multiversX: 'elrond',
+  filecoin: 'filecoin',
+  flow: 'flow',
+  hedera: 'hedera',
+  kava: 'kava',
+  klay: 'klaytn',
+  eos: 'eos',
+  litecoin: 'litecoin',
+  near: 'near',
+  nimiq: 'nimiq',
+  okt: 'okt',
+  qtum: 'qtum',
+  solana: 'solana',
+  stacks: 'stacks',
+  sui: 'sui',
+  ton: 'ton',
+  tron: 'tron',
+  wax: 'wax',
+  stellar: 'stellar',
+  nano: 'nano',
+  xrp: 'ripple',
+  tezos: 'tezos',
+  zilliqa: 'zilliqa',
 };
 
 const handler = async (event) => {
@@ -97,7 +92,7 @@ const handler = async (event) => {
         address: null, // Address can be added if needed
         cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1), // Capitalize first letter of network
         chainId: chainId,
-        symbol: token.iconUrl
+        symbol: `https://images-currency.meld.io/crypto/${token.ticker}/symbol.png`
       };
     });
 
