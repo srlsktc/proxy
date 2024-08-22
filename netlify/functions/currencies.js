@@ -10,6 +10,11 @@ const corsHeaders = {
 const networkToChainId = {
   bitcoin: 'bitcoin',
   cardano: 'cardano',
+  ethereum: 'ethereum',
+  polygon: 'polygon',
+  klaytn: 'klaytn',
+  celo: 'celo',
+  avaxc: 'avaxc',
   algorand: 'algorand',
   aptos: 'apt',
   cosmos: 'cosmos',
@@ -20,6 +25,7 @@ const networkToChainId = {
   polkadot: 'polkadot',
   multiversX: 'elrond',
   filecoin: 'filecoin',
+  optimism: 'optimism',
   flow: 'flow',
   hedera: 'hedera',
   kava: 'kava',
@@ -38,7 +44,7 @@ const networkToChainId = {
   wax: 'wax',
   stellar: 'stellar',
   nano: 'nano',
-  xrp: 'ripple',
+  ripple: 'ripple',
   tezos: 'tezos',
   zilliqa: 'zilliqa',
 };
