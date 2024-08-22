@@ -85,7 +85,8 @@ const handler = async (event) => {
     console.log('Response body:', responseBody);
     // Process the response
     const supportedTokens = JSON.parse(responseBody).map(token => {
-      const chainId = networkToChainId[token.network] || null;
+      const network = token.network.toLowerCase()
+      const chainId = networkToChainId[network] || null;
 
       return {
         cryptoCurrencyCode: token.ticker,
