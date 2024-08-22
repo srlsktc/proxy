@@ -13,9 +13,9 @@ const networkToChainId = {
   algorand: 'algorand',
   aptos: 'apt',
   cosmos: 'cosmos',
-  bitcoinCash: 'bitcoin_cash',
-  binanceCoin: 'binance_smart_chain',
-  digiByte: 'digibyte',
+  bitcoin_cash: 'bitcoin_cash',
+  binance_smart_chain: 'binance_smart_chain',
+  digibyte: 'digibyte',
   doge: 'doge',
   polkadot: 'polkadot',
   multiversX: 'elrond',
@@ -42,6 +42,7 @@ const networkToChainId = {
   tezos: 'tezos',
   zilliqa: 'zilliqa',
 };
+
 
 const handler = async (event) => {
   try {
@@ -89,7 +90,7 @@ const handler = async (event) => {
       return {
         cryptoCurrencyCode: token.ticker,
         displayName: token.name,
-        address: null, // Address can be added if needed
+        address: '0x0000000000000000000000000000000000000000', // Address can be added if needed
         cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1), // Capitalize first letter of network
         chainId: chainId,
         symbol: `https://images-currency.meld.io/crypto/${token.ticker}/symbol.png`
