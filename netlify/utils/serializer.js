@@ -1,4 +1,4 @@
-export function serializeQueryParams(params) {
+function serializeQueryParams(params) {
   const queryString = []
   for (const [param, value] of Object.entries(params)) {
     if (value !== undefined) {
@@ -7,3 +7,5 @@ export function serializeQueryParams(params) {
   }
   return queryString.join('&')
 }
+
+module.exports.serializeQueryParams = serializeQueryParams;
