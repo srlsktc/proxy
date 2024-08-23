@@ -115,7 +115,7 @@ const handler = async (event) => {
         address: '0x0000000000000000000000000000000000000000',
         cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1),
         chainId: chainId,
-        symbol: `https://images-currency.meld.io/crypto/${token.protocol}/symbol.png`
+        symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`
       };
     });
 
