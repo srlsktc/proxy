@@ -16,7 +16,7 @@ const networkToChainId = {
   celo: 'celo',
   avaxc: 'avaxc',
   algorand: 'algorand',
-  aptos: 'apt',
+  aptos: 'aptos',
   cosmos: 'cosmos',
   bitcoin_cash: 'bitcoin_cash',
   binance_smart_chain: 'binance_smart_chain',
@@ -49,6 +49,17 @@ const networkToChainId = {
   zilliqa: 'zilliqa',
 };
 
+function getSymbolFromTicker(ticker) {
+  if (ticker.startsWith('USDT')) {
+    return 'USDT';
+  } else if (ticker.startsWith('USDC')) {
+    return 'USDC';
+  } else if (ticker.startsWith('BNB')) {
+    return 'BNB';
+  } else {
+    return ticker;
+  }
+}
 
 const handler = async (event) => {
   try {
@@ -94,13 +105,15 @@ const handler = async (event) => {
       const network = token.network.toLowerCase()
       const chainId = networkToChainId[network] || null;
 
+      const symbol = getSymbolFromTicker(token.ticker);
+
       return {
         cryptoCurrencyCode: token.ticker,
         displayName: token.name,
         address: '0x0000000000000000000000000000000000000000', // Address can be added if needed
         cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1), // Capitalize first letter of network
         chainId: chainId,
-        symbol: `https://images-currency.meld.io/crypto/${token.ticker}/symbol.png`
+        symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`
       };
     });
 
