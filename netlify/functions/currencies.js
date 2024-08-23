@@ -56,6 +56,8 @@ function getSymbolFromTicker(ticker) {
     return 'USDC';
   } else if (ticker.startsWith('BNB')) {
     return 'BNB';
+  } else if (ticker.startsWith('MATIC')) {
+    return 'MATIC';
   } else {
     return ticker;
   }
@@ -110,10 +112,10 @@ const handler = async (event) => {
       return {
         cryptoCurrencyCode: token.ticker,
         displayName: token.name,
-        address: '0x0000000000000000000000000000000000000000', // Address can be added if needed
-        cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1), // Capitalize first letter of network
+        address: '0x0000000000000000000000000000000000000000',
+        cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1),
         chainId: chainId,
-        symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`
+        symbol: `https://images-currency.meld.io/crypto/${token.protocol}/symbol.png`
       };
     });
 
