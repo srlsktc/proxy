@@ -58,6 +58,8 @@ function getSymbolFromTicker(ticker) {
     return 'BNB';
   } else if (ticker.startsWith('MATIC')) {
     return 'MATIC';
+  } else if (ticker.startsWith('NEAR')) {
+    return 'NEAR';
   } else {
     return ticker;
   }
@@ -75,7 +77,7 @@ const handler = async (event) => {
     }
 
     // const apiUrl = 'https://fiat-api.changelly.com/v1/currencies' + (event.queryStringParameters ? `?${event.queryStringParameters}` : '');
-    const apiUrl = 'https://fiat-api.changelly.com/v1/currencies?providerCode=moonpay&type=crypto&supportedFlow=buy';
+    const apiUrl = 'https://fiat-api.changelly.com/v1/currencies?type=crypto&supportedFlow=buy';
 
     const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
     const API_PRIVATE_KEY = process.env.API_PRIVATE_KEY;
@@ -103,21 +105,24 @@ const handler = async (event) => {
     const responseBody = await response.text();
     console.log('Response body:', responseBody);
     // Process the response
-    const supportedTokens = JSON.parse(responseBody).map(token => {
-      const network = token.network.toLowerCase()
-      const chainId = networkToChainId[network] || null;
+    const supportedTokens = JSON.parse(responseBody)
+      .filter(token => token.providers.some(provider => provider.providerCode === 'moonpay'))
+      .map(token => {
+        const network = token.network.toLowerCase()
+        const chainId = networkToChainId[network] || null;
 
-      const symbol = getSymbolFromTicker(token.ticker);
+        const symbol = getSymbolFromTicker(token.ticker);
 
-      return {
-        cryptoCurrencyCode: token.ticker,
-        displayName: token.name,
-        address: '0x0000000000000000000000000000000000000000',
-        cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1),
-        chainId: chainId,
-        symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`
-      };
-    });
+        return {
+          cryptoCurrencyCode: token.ticker,
+          displayName: token.name,
+          address: '0x0000000000000000000000000000000000000000',
+          cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1),
+          chainId: chainId,
+          blockchain: token.network,
+          symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`
+        };
+      });
 
     const result = {
       supportedTokens
