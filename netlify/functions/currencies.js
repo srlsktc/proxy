@@ -7,7 +7,7 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
-const networkToChainId = {
+const blockchains = {
   bitcoin: 'bitcoin',
   cardano: 'cardano',
   ethereum: 'ethereum',
@@ -47,6 +47,39 @@ const networkToChainId = {
   ripple: 'ripple',
   tezos: 'tezos',
   zilliqa: 'zilliqa',
+};
+const ChainId = {
+  MAINNET: 1,
+  OPTIMISM: 10,
+  ARBITRUM_ONE: 42161,
+  POLYGON: 137,
+  CELO: 42220,
+  GNOSIS: 100,
+  MOONBEAM: 1284,
+  BNB: 56,
+  AVALANCHE: 43114,
+  BASE: 8453,
+  ZORA: 7777777,
+  ROOTSTOCK: 30,
+  BLAST: 81457,
+  ZKSYNC: 324
+}
+
+const networkToChainIdMap = {
+  ethereum: ChainId.MAINNET,
+  optimism: ChainId.OPTIMISM,
+  arbitrum: ChainId.ARBITRUM_ONE,
+  polygon: ChainId.POLYGON,
+  celo: ChainId.CELO,
+  gnosis: ChainId.GNOSIS,
+  moonbeam: ChainId.MOONBEAM,
+  bnb: ChainId.BNB,
+  avalanche: ChainId.AVALANCHE,
+  base: ChainId.BASE,
+  zora: ChainId.ZORA,
+  rootstock: ChainId.ROOTSTOCK,
+  blast: ChainId.BLAST,
+  zksync: ChainId.ZKSYNC,
 };
 
 function getSymbolFromTicker(ticker) {
@@ -109,7 +142,11 @@ const handler = async (event) => {
       .filter(token => token.providers.some(provider => provider.providerCode === 'moonpay'))
       .map(token => {
         const network = token.network.toLowerCase()
-        const chainId = networkToChainId[network] || null;
+        const chainId = 0;
+        
+        if (network in networkToChainIdMap) {
+          chainId = networkToChainIdMap[network];
+        }
 
         const symbol = getSymbolFromTicker(token.ticker);
 
