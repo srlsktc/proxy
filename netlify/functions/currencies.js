@@ -142,7 +142,7 @@ const handler = async (event) => {
       .filter(token => token.providers.some(provider => provider.providerCode === 'moonpay'))
       .map(token => {
         const network = token.network.toLowerCase()
-        const chainId = 0;
+        let chainId = 0;
         
         if (network in networkToChainIdMap) {
           chainId = networkToChainIdMap[network];
