@@ -49,6 +49,7 @@ const blockchains = {
   zilliqa: 'zilliqa',
 };
 const ChainId = {
+  DEFAULT: 0,
   MAINNET: 1,
   OPTIMISM: 10,
   ARBITRUM_ONE: 42161,
@@ -66,6 +67,7 @@ const ChainId = {
 }
 
 const networkToChainIdMap = {
+  bitcoin: ChainId.DEFAULT,
   ethereum: ChainId.MAINNET,
   optimism: ChainId.OPTIMISM,
   arbitrum: ChainId.ARBITRUM_ONE,
