@@ -66,8 +66,8 @@ const ChainId = {
   ZKSYNC: 324
 }
 
-const networkToChainIdMap = {
-  bitcoin: ChainId.DEFAULT,
+const ethNetworkToChainIdMap = {
+  // bitcoin: ChainId.DEFAULT,
   ethereum: ChainId.MAINNET,
   optimism: ChainId.OPTIMISM,
   arbitrum: ChainId.ARBITRUM_ONE,
@@ -146,8 +146,8 @@ const handler = async (event) => {
         const network = token.network.toLowerCase()
         let chainId = 0;
         
-        if (network in networkToChainIdMap) {
-          chainId = networkToChainIdMap[network];
+        if (network in ethNetworkToChainIdMap) {
+          chainId = ethNetworkToChainIdMap[network];
         }
 
         const symbol = getSymbolFromTicker(token.ticker);
