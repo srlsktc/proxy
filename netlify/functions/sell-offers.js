@@ -46,27 +46,14 @@ const handler = async (event) => {
 
     let responseBody = await response.json();
     console.log('Response status:', response.status);
-    // console.log('Response body:', JSON.stringify(responseBody));
 
-    // if (response.status === 200) {
-    //   return {
-    //     statusCode: response.status,
-    //     body: JSON.stringify(responseBody),
-    //     headers: {
-    //       ...corsHeaders,
-    //       'Content-Type': 'application/json',
-    //     },
-    //   };
-    // }
-
-    // Check if the error is related to "Too low in amount"
     if (Array.isArray(responseBody) && responseBody.length > 0) {
       const errorResponse = responseBody[0];
       if (errorResponse.providerCode === 'moonpay' && errorResponse.errorType === 'limits') {
 
         console.log('catch block', JSON.stringify(responseBody))
         const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
-        const roundedMinValue = Math.ceil(minValue);
+        const roundedMinValue = queryParams.currencyFrom = 'BTC' ? 0.1 : Math.ceil(minValue);
         
         // Update the query params with the new min value
         queryParams.amountFrom = roundedMinValue;
