@@ -19,10 +19,10 @@ const handler = async (event) => {
         headers: corsHeaders,
       };
     }
+    const xForwardedFor = event.headers['x-forwarded-for'] || event.headers['X-Forwarded-For'];
 
-    // Get the IP from the request, defaulting to the requester's IP if none provided
-    const ip = event.headers['X-Forwarded-For'] || event.identity?.sourceIp || event.requestContext.identity?.sourceIp;
-    console.log('ip', ip, event)
+    const ip = xForwardedFor ? xForwardedFor.split(',')[0].trim() : null;
+    console.log('xforwarder', xForwardedFor, ip)
 
     if (!ip) {
       return {
