@@ -10,7 +10,7 @@ const corsHeaders = {
 
 const handler = async (event) => {
   try {
-    console.log('Http method:', event.httpMethod, event.queryStringParameters);
+    console.log('Http method:', event.httpMethod, event);
 
     // Handle preflight request
     if (event.httpMethod === 'OPTIONS') {
@@ -21,7 +21,7 @@ const handler = async (event) => {
     }
 
     // Get the IP from the request, defaulting to the requester's IP if none provided
-    const ip = event.headers['X-Forwarded-For'] || event.identity.sourceIp || event.requestContext.identity.sourceIp;
+    const ip = event.headers['X-Forwarded-For'] || event.identity?.sourceIp || event.requestContext.identity?.sourceIp;
     console.log('ip', ip, event)
 
     if (!ip) {
