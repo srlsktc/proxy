@@ -46,7 +46,7 @@ const handler = async (event) => {
 
     let responseBody = await response.json();
     console.log('Response status:', response.status);
-    console.log('Response body:', responseBody);
+    console.log('Response body:', JSON.stringify(responseBody));
 
     // if (response.status === 200) {
     //   return {
