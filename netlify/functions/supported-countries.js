@@ -45,8 +45,8 @@ const handler = async (event) => {
       }
     });
     
-    console.log('Response status:', response.status, response);
     const responseBody = await response.json();
+    console.log('Response status:', response.status, responseBody);
     
     const formattedResponse = {
       supportedCountries: responseBody.map(country => ({
