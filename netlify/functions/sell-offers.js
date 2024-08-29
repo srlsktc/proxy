@@ -60,12 +60,14 @@ const handler = async (event) => {
     }
 
     // Check if the error is related to "Too low in amount"
-    if (response.status !== 200 && responseBody[0]?.errorType === 'limits' && responseBody[0]?.errorDetails[0]?.cause === 'min') {
+    if (response.status !== 200 && responseBody[0]?.errorType === 'limits') {
+      console.log('catch block', responseBody)
       const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
       const roundedMinValue = Math.ceil(minValue);
-
+      
       // Update the query params with the new min value
-      queryParams.amount = roundedMinValue;
+      queryParams.amountFrom = roundedMinValue;
+      console.log('catch block2', queryParams, roundedMinValue)
       apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(queryParams)}`;
 
       const payload = apiUrl + JSON.stringify(message);
