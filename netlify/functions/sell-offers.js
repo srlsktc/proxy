@@ -64,7 +64,7 @@ const handler = async (event) => {
       const errorResponse = responseBody[0];
       if (errorResponse.providerCode === 'moonpay' && errorResponse.errorType === 'limits') {
 
-        console.log('catch block', responseBody)
+        console.log('catch block', JSON.stringify(responseBody))
         const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
         const roundedMinValue = Math.ceil(minValue);
         
