@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const ApiSigner = require('../utils/signer');
+const { serializeQueryParams } = require('../utils/serializer');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -111,7 +112,7 @@ const handler = async (event) => {
       };
     }
 
-    const apiUrl = 'https://fiat-api.changelly.com/v1/currencies?type=crypto&supportedFlow=buy';
+    const apiUrl = `https://fiat-api.changelly.com/v1/currencies?type=crypto&${serializeQueryParams(event.queryStringParameters)}`;
 
     const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
     const API_PRIVATE_KEY = process.env.API_PRIVATE_KEY;
