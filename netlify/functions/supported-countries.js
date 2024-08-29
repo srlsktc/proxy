@@ -20,7 +20,7 @@ const handler = async (event) => {
     }
 
     const body = event.body;
-    const apiUrl = `https://fiat-api.changelly.com/v1//available-countries?${serializeQueryParams(event.queryStringParameters)}`;
+    const apiUrl = `https://fiat-api.changelly.com/v1/available-countries?${serializeQueryParams(event.queryStringParameters)}`;
     console.log('api url', apiUrl)
 
     const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
@@ -45,7 +45,7 @@ const handler = async (event) => {
       }
     });
     
-    console.log('Response status:', response.status);
+    console.log('Response status:', response.status, response);
     const responseBody = await response.json();
     
     const formattedResponse = {
