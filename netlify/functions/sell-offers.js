@@ -48,44 +48,48 @@ const handler = async (event) => {
     console.log('Response status:', response.status);
     console.log('Response body:', responseBody);
 
-    if (response.status === 200) {
-      return {
-        statusCode: response.status,
-        body: JSON.stringify(responseBody),
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json',
-        },
-      };
-    }
+    // if (response.status === 200) {
+    //   return {
+    //     statusCode: response.status,
+    //     body: JSON.stringify(responseBody),
+    //     headers: {
+    //       ...corsHeaders,
+    //       'Content-Type': 'application/json',
+    //     },
+    //   };
+    // }
 
     // Check if the error is related to "Too low in amount"
-    if (response.status !== 200 && responseBody[0]?.errorType === 'limits') {
-      console.log('catch block', responseBody)
-      const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
-      const roundedMinValue = Math.ceil(minValue);
-      
-      // Update the query params with the new min value
-      queryParams.amountFrom = roundedMinValue;
-      console.log('catch block2', queryParams, roundedMinValue)
-      apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(queryParams)}`;
+    if (Array.isArray(responseBody) && responseBody.length > 0) {
+      const errorResponse = responseBody[0];
+      if (errorResponse.providerCode === 'moonpay' && errorResponse.errorType === 'limits') {
 
-      const payload = apiUrl + JSON.stringify(message);
-      const signature = apiSigner.sign(payload);
+        console.log('catch block', responseBody)
+        const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
+        const roundedMinValue = Math.ceil(minValue);
+        
+        // Update the query params with the new min value
+        queryParams.amountFrom = roundedMinValue;
+        console.log('catch block2', queryParams, roundedMinValue)
+        apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(queryParams)}`;
 
-      response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Origin': 'https://keytrust.one',
-          'X-Api-Key': API_PUBLIC_KEY,
-          'X-Api-Signature': signature,
-        }
-      });
+        const payload = apiUrl + JSON.stringify(message);
+        const signature = apiSigner.sign(payload);
 
-      responseBody = await response.json();
-      console.log('Retried response status:', response.status);
-      console.log('Retried response body:', responseBody);
+        response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Origin': 'https://keytrust.one',
+            'X-Api-Key': API_PUBLIC_KEY,
+            'X-Api-Signature': signature,
+          }
+        });
+
+        responseBody = await response.json();
+        console.log('Retried response status:', response.status);
+        console.log('Retried response body:', responseBody);
+      }
     }
 
     return {
