@@ -21,7 +21,8 @@ const handler = async (event) => {
     }
 
     // Get the IP from the request, defaulting to the requester's IP if none provided
-    const ip = event.queryStringParameters?.ip || event.requestContext.identity.sourceIp;
+    const ip = event.headers['X-Forwarded-For'] || event.requestContext.identity.sourceIp;
+    console.log('ip', ip, event)
 
     if (!ip) {
       return {
