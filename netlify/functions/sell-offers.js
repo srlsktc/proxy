@@ -53,7 +53,7 @@ const handler = async (event) => {
 
         console.log('catch block', JSON.stringify(responseBody))
         const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
-        const roundedMinValue = queryParams.currencyFrom = 'BTC' ? 0.1 : Math.ceil(minValue);
+        const roundedMinValue = queryParams.currencyFrom = 'BTC' ? '0.1' : Math.ceil(minValue);
         
         // Update the query params with the new min value
         queryParams.amountFrom = roundedMinValue;
