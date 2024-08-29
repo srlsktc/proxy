@@ -46,7 +46,7 @@ const handler = async (event) => {
 
     let responseBody = await response.json();
     console.log('Response status:', response.status);
-    console.log('Response body:', JSON.stringify(responseBody));
+    // console.log('Response body:', JSON.stringify(responseBody));
 
     // if (response.status === 200) {
     //   return {
@@ -88,18 +88,18 @@ const handler = async (event) => {
 
         responseBody = await response.json();
         console.log('Retried response status:', response.status);
-        console.log('Retried response body:', JSON.stringify(responseBody));
+        // console.log('Retried response body:', JSON.stringify(responseBody));
     
-        return {
-          statusCode: response.status,
-          body: JSON.stringify(responseBody),
-          headers: {
-            ...corsHeaders,
-            'Content-Type': 'application/json',
-          },
-        };
       }
     }
+    return {
+      statusCode: response.status,
+      body: JSON.stringify(responseBody),
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+      },
+    };
   } catch (error) {
     console.log('catch error', JSON.stringify({ error: error.toString() }));
     return {
