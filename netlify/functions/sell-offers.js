@@ -19,9 +19,8 @@ const handler = async (event) => {
       };
     }
 
-    const body = event.body;
-    const apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(event.queryStringParameters)}`;
-    console.log('api url', apiUrl)
+    let queryParams = event.queryStringParameters;
+    let apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(queryParams)}`;
 
     const API_PUBLIC_KEY = process.env.API_PUBLIC_KEY;
     const API_PRIVATE_KEY = process.env.API_PRIVATE_KEY;
@@ -35,7 +34,7 @@ const handler = async (event) => {
     const payload = apiUrl + JSON.stringify(message);
     const signature = apiSigner.sign(payload);
 
-    const response = await fetch(apiUrl, {
+    let response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -45,13 +44,51 @@ const handler = async (event) => {
       }
     });
 
+    let responseBody = await response.json();
     console.log('Response status:', response.status);
-    const responseBody = await response.text();
     console.log('Response body:', responseBody);
+
+    if (response.status === 200) {
+      return {
+        statusCode: response.status,
+        body: JSON.stringify(responseBody),
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json',
+        },
+      };
+    }
+
+    // Check if the error is related to "Too low in amount"
+    if (response.status !== 200 && responseBody[0]?.errorType === 'limits' && responseBody[0]?.errorDetails[0]?.cause === 'min') {
+      const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
+      const roundedMinValue = Math.ceil(minValue);
+
+      // Update the query params with the new min value
+      queryParams.amount = roundedMinValue;
+      apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(queryParams)}`;
+
+      const payload = apiUrl + JSON.stringify(message);
+      const signature = apiSigner.sign(payload);
+
+      response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Origin': 'https://keytrust.one',
+          'X-Api-Key': API_PUBLIC_KEY,
+          'X-Api-Signature': signature,
+        }
+      });
+
+      responseBody = await response.json();
+      console.log('Retried response status:', response.status);
+      console.log('Retried response body:', responseBody);
+    }
 
     return {
       statusCode: response.status,
-      body: responseBody,
+      body: JSON.stringify(responseBody),
       headers: {
         ...corsHeaders,
         'Content-Type': 'application/json',
