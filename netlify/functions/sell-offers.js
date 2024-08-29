@@ -88,18 +88,18 @@ const handler = async (event) => {
 
         responseBody = await response.json();
         console.log('Retried response status:', response.status);
-        console.log('Retried response body:', responseBody);
+        console.log('Retried response body:', JSON.stringify(responseBody));
+    
+        return {
+          statusCode: response.status,
+          body: JSON.stringify(responseBody),
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+          },
+        };
       }
     }
-
-    return {
-      statusCode: response.status,
-      body: JSON.stringify(responseBody),
-      headers: {
-        ...corsHeaders,
-        'Content-Type': 'application/json',
-      },
-    };
   } catch (error) {
     console.log('catch error', JSON.stringify({ error: error.toString() }));
     return {
