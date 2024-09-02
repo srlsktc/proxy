@@ -49,7 +49,7 @@ const handler = async (event) => {
 
     if (Array.isArray(responseBody) && responseBody.length > 0) {
       const errorResponse = responseBody[0];
-      if (errorResponse.providerCode === 'moonpay' && errorResponse.errorType === 'limits') {
+      if (errorResponse.errorType === 'limits') {
 
         console.log('catch block', JSON.stringify(responseBody))
         const minValue = parseFloat(responseBody[0]?.errorDetails[0]?.value);
@@ -57,7 +57,7 @@ const handler = async (event) => {
         
         // Update the query params with the new min value
         queryParams.amountFrom = roundedMinValue;
-        console.log('catch block2', queryParams, roundedMinValue)
+        // console.log('catch block2', queryParams, roundedMinValue)
         apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(queryParams)}`;
 
         const payload = apiUrl + JSON.stringify(message);
@@ -74,9 +74,7 @@ const handler = async (event) => {
         });
 
         responseBody = await response.json();
-        console.log('Retried response status:', response.status);
-        // console.log('Retried response body:', JSON.stringify(responseBody));
-    
+        console.log('Retried response status:', response.status, responseBody);    
       }
     }
     return {
