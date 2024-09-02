@@ -4,7 +4,7 @@ const handler = async (event) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  console.log('input data', event.body)
+  console.log('input data ', event.body)
 
   const body = JSON.parse(event.body);
   const url = "https://interface.gateway.uniswap.org/v1/graphql";
