@@ -57,7 +57,6 @@ const handler = async (event) => {
         
         // Update the query params with the new min value
         queryParams.amountFrom = roundedMinValue;
-        // console.log('catch block2', queryParams, roundedMinValue)
         apiUrl = `https://fiat-api.changelly.com/v1/sell/offers?${serializeQueryParams(queryParams)}`;
 
         const payload = apiUrl + JSON.stringify(message);

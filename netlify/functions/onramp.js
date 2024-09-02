@@ -43,7 +43,7 @@ const handler = async (event) => {
       body,
     });
 
-    console.log('Response status:', response.status);
+    // console.log('Response status:', response.status);
     const responseBody = await response.text();
     console.log('Response body:', responseBody);
 
