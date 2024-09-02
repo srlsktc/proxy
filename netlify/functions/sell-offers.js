@@ -45,7 +45,7 @@ const handler = async (event) => {
     });
 
     let responseBody = await response.json();
-    console.log('Response status:', response.status);
+    console.log('Response status:', response.status, responseBody);
 
     if (Array.isArray(responseBody) && responseBody.length > 0) {
       const errorResponse = responseBody[0];
