@@ -10,8 +10,9 @@ const handler = async (event) => {
   const response = await fetch(url, {
     method: "POST",
     headers: {
-      "content-type": "text/plain;charset=UTF-8",
-      "x-request-source": "uniswap-web",
+      "Content-Type": "text/plain;charset=UTF-8",
+      "X-Request-Source": "uniswap-web",
+      "Accept-Encoding": "gzip, deflate, br, zstd",
       Origin: "https://app.uniswap.org",
       Referer: "https://app.uniswap.org/",
     },
