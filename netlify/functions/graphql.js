@@ -13,14 +13,14 @@ const handler = async (event) => {
     method: "POST",
     headers: {
       // "content-type": "text/plain;charset=UTF-8",
-      "x-request-source": "uniswap-web",
+      // "x-request-source": "uniswap-web",
       Origin: "https://app.uniswap.org",
       Referer: "https://app.uniswap.org/",
-      accept: '*/*',
-      "accept-encoding": "gzip, deflate, br, zstd",
-      "accept-language": "en-GB,en;q=0.6",
-      "cache-control": "no-cache",
-      "content-type": "application/json"
+      Accept: '*/*',
+      "Accept-Encoding": "gzip, deflate, br, zstd",
+      "Accept-Language": "en-GB,en;q=0.6",
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(body),
   });
