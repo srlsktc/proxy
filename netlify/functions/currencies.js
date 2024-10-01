@@ -181,9 +181,9 @@ const handler = async (event) => {
       }
     });
 
-    console.log('Response status:', response.status);
+    // console.log('Response status:', response.status);
     const responseBody = await response.text();
-    console.log('Response body:', responseBody);
+    // console.log('Response body:', responseBody);
     // Process the response
     const supportedTokens = JSON.parse(responseBody)
       .filter(token => token.providers.some(provider => provider.providerCode === 'moonpay'))
@@ -195,7 +195,9 @@ const handler = async (event) => {
           chainId = ethNetworkToChainIdMap[network];  
         }
 
+        const blockchain = blockchainAcronyms[token.blockchain] || token.blockchain;
         const symbol = getSymbolFromTicker(token.ticker);
+        console.log('blockchain', blockchain, token)
 
         return {
           cryptoCurrencyCode: token.ticker,
@@ -203,8 +205,8 @@ const handler = async (event) => {
           address: '0x0000000000000000000000000000000000000000',
           cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1),
           chainId: chainId,
-          blockchain: blockchainAcronyms[token.blockchain] || token.blockchain,
-          symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`
+          symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`,
+          blockchain,
         };
       });
 
