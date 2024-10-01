@@ -19,7 +19,6 @@ const handler = async (event) => {
       };
     }
 
-    const body = event.body;
     const apiUrl = `https://fiat-api.changelly.com/v1/available-countries?${serializeQueryParams(event.queryStringParameters)}`;
     console.log('api url', apiUrl)
 

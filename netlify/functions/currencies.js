@@ -49,6 +49,51 @@ const blockchains = {
   tezos: 'tezos',
   zilliqa: 'zilliqa',
 };
+
+const blockchainAcronyms = {
+  ethereum: 'ERC20',
+  cardano: 'ADA',
+  algorand: 'ALGO',
+  apt: 'APT',
+  cosmos: 'ATOM',
+  avaxc: 'Avalanche C-Chain',
+  bitcoin: 'BTC',
+  bitcoin_cash: 'BCH',
+  binance_dex: 'BEP-2',
+  binance_smart_chain: 'BSC (BEP20)',
+  celo: 'CELO',
+  digibyte: 'DGB',
+  doge: 'DOGE',
+  elrond: 'EGLD',
+  eos: 'EOS',
+  ethereum_classic: 'ETC',
+  filecoin: 'FIL',
+  flow: 'FLOW',
+  hedera: 'HBAR',
+  kava: 'KAVA',
+  klaytn: 'KLAY',
+  litecoin: 'LTC',
+  near: 'NEAR',
+  nimiq: 'NIM',
+  okt: 'OKT',
+  optimism: 'OP Mainnet',
+  polygon: 'Polygon',
+  qtum: 'QTUM',
+  roninchain: 'Ronin',
+  solana: 'SOL',
+  stacks: 'STX',
+  sui: 'SUI',
+  ton: 'TON',
+  tron: 'TRC20',
+  vechainthor: 'VET',
+  wax: 'WAX',
+  ripple: 'XRP',
+  stellar: 'XLM',
+  nano: 'NANO',
+  tezos: 'XTZ',
+  zilliqa: 'ZIL',
+};
+
 const ChainId = {
   DEFAULT: 0,
   MAINNET: 1,
@@ -147,7 +192,7 @@ const handler = async (event) => {
         let chainId = 0;
         
         if (network in ethNetworkToChainIdMap) {
-          chainId = ethNetworkToChainIdMap[network];
+          chainId = ethNetworkToChainIdMap[network];  
         }
 
         const symbol = getSymbolFromTicker(token.ticker);
@@ -158,7 +203,7 @@ const handler = async (event) => {
           address: '0x0000000000000000000000000000000000000000',
           cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1),
           chainId: chainId,
-          blockchain: token.network,
+          blockchain: blockchainAcronyms[token.blockchain] || token.blockchain,
           symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`
         };
       });
