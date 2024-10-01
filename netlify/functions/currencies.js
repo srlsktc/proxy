@@ -195,9 +195,7 @@ const handler = async (event) => {
           chainId = ethNetworkToChainIdMap[network];  
         }
 
-        const blockchain = blockchainAcronyms[token.blockchain] || token.blockchain;
         const symbol = getSymbolFromTicker(token.ticker);
-        console.log('blockchain', blockchain, token)
 
         return {
           cryptoCurrencyCode: token.ticker,
@@ -206,7 +204,7 @@ const handler = async (event) => {
           cryptoCurrencyChain: token.network.charAt(0).toUpperCase() + token.network.slice(1),
           chainId: chainId,
           symbol: `https://images-currency.meld.io/crypto/${symbol}/symbol.png`,
-          blockchain,
+          blockchain: blockchainAcronyms[token.network] || token.network,
         };
       });
 
